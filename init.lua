@@ -4301,6 +4301,69 @@ minetest.register_chatcommand(
     }
 )
 
+minetest.register_chatcommand("give_every_student",{
+    params = "<itemstring> <count>",
+    description = S(
+        "give all students an item"
+    ),
+    privs = {
+        teacher = true,
+    },
+    func = function(own_name, param)
+        local item, count = param:match(
+            '^(%S+)%s(%d+)$'
+        )
+        if not item then
+            minetest.chat_send_player(
+                own_name,
+                "EDUtest: " .. S(
+                    "you need to specify item and count"
+                )
+            )
+            return
+        end
+        count = tonumber(
+            count
+        )
+        if not count then
+            minetest.chat_send_player(
+                own_name,
+                "EDUtest: " .. S(
+                    "invalid count"
+                )
+            )
+            return
+        end
+        local found_student = false
+        for _, player in pairs(minetest.get_connected_players()) do
+            local name = player:get_player_name()
+
+            if name ~= minetest.settings:get("name")
+            and edutest.is_student(name) then
+                found_student = true
+                minetest.chat_send_player(
+                    name,
+                    "EDUtest: " .. S(
+                        "you were given @1 of @2",
+                        count,
+                        item
+                    )
+                )
+                player:get_inventory():add_item("main", item .. " " .. count)
+            end
+        end
+        if not found_student then
+            minetest.chat_send_player(
+                own_name,
+                "EDUtest: " .. S(
+                    "no student players found"
+                )
+            )
+        end
+    end
+}
+)
+
 minetest.register_on_joinplayer(
     function (player)
         local name = player:get_player_name(

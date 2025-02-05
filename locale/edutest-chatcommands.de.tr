@@ -88,3 +88,7 @@ Unfreeze a player=Spieler auftauen
 You aren't frozen anymore.=Du bist nicht mehr eingefroren.
 missing privilege @1=Fehlendes Privileg @1
 unknown command @1=unbekanntes Kommando @1
+you need to specify item and count=Du musst ein Item und eine Anzahl angeben.
+invalid count=Ungültige Anzahl
+you were given @1 of @2=Dir wurde @1 @2 gegeben.
+give all students an item=Gebe allen Schülern ein Item.
